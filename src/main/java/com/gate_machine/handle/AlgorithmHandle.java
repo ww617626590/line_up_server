@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
  * 算法处理
+ *
  * @author xxxx
  */
 @Component
@@ -60,10 +60,11 @@ public class AlgorithmHandle {
 
 
     /**
-     *M/M/C
+     * M/M/C
      * 顾客到达时间间隔/服务时间分布：指数分布/服务台数目：C个
+     *
      * @param type 对应的排队方式：1-检票闸机，2-安检设施 3-自动售票机
-     * @param c 服务台数目
+     * @param c    服务台数目
      */
     public CalculateResult mMC(String type, int c) {
         CalculateResult calculateResult = new CalculateResult();
@@ -79,6 +80,9 @@ public class AlgorithmHandle {
         BigDecimal p0 = getP0(u, r, p, c);
 
         // 求Lq值
+        // 先求 (c * p)c次幂 * p
+
+
 
 
         return calculateResult;
@@ -108,6 +112,7 @@ public class AlgorithmHandle {
         p0 = part1.add(part2).pow(-1);
         return p0;
     }
+
     /**
      * 求和公式
      */
@@ -127,7 +132,7 @@ public class AlgorithmHandle {
     }
 
     /**
-     *  获取k的阶乘
+     * 获取k的阶乘
      */
     public static long gteFactorial(int k) {
         if (k == 0 || k == 1) {
@@ -139,7 +144,6 @@ public class AlgorithmHandle {
         }
         return factorial;
     }
-
 
 
     private static BigDecimal getR(List<TimeData> timeDataList) {
