@@ -4,7 +4,6 @@ package com.gate_machine.handle;
 import com.gate_machine.domain.TimeData;
 import com.gate_machine.result.bizResult.CalculateResult;
 import com.gate_machine.service.TimeDataService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -80,11 +79,43 @@ public class AlgorithmHandle {
         BigDecimal p0 = getP0(u, r, p, c);
 
         // 求Lq值
-        // 先求 (c * p)c次幂 * p
+        // p * c 的 c次幂
+        BigDecimal pC = p.multiply(new BigDecimal(c)).pow(c);
+        BigDecimal multiplyUp = pC.multiply(p);
+        // C！(1-p)的2次幂
+        BigDecimal multiplyDown = new BigDecimal(gteFactorial(c)).multiply(new BigDecimal(1).subtract(p).pow(2));
+        // （multiplyUp - multiplyDown）p0
+        BigDecimal Lq = multiplyUp.subtract(multiplyDown).multiply(p0);
+        calculateResult.setLq(Lq);
 
+        // 求L值 L = Lq + Cp
+        BigDecimal L = Lq.add(new BigDecimal(c).multiply(p));
+        calculateResult.setL(L);
 
+        // Wq = Lq / r
+        BigDecimal Wq = Lq.divide(r, 5, BigDecimal.ROUND_HALF_UP);
+        calculateResult.setWq(Wq);
+        // w = L / r
+        BigDecimal W = L.divide(r, 5, BigDecimal.ROUND_HALF_UP);
+        calculateResult.setW(W);
+        return calculateResult;
+    }
 
-
+    /**
+     * M/G/1
+     * 顾客到达时间间隔/服务时间分布：普通概率分布/服务台数目：1
+     *
+     * @param type 对应的排队方式：1-检票闸机，2-安检设施 3-自动售票机
+     */
+    public CalculateResult mG1(String type) {
+        CalculateResult calculateResult = new CalculateResult();
+        List<TimeData> timeDataList = timeDataService.selectByType(type);
+        BigDecimal u = getU(timeDataList);
+        calculateResult.setU(u);
+        BigDecimal r = getR(timeDataList);
+        calculateResult.setR(r);
+        // 求p的值 r / u
+        BigDecimal p = r.divide(u, 5, BigDecimal.ROUND_HALF_UP);
         return calculateResult;
     }
 
@@ -109,7 +140,8 @@ public class AlgorithmHandle {
         // 求part1的值
         BigDecimal part1 = this.calculateSum(c - 1, r, u);
         // p0 = (part1 + part2) -1次幂
-        p0 = part1.add(part2).pow(-1);
+        p0 = part1.add(part2);
+        p0 = ONE.divide(p0, 5, BigDecimal.ROUND_HALF_UP);
         return p0;
     }
 

@@ -62,4 +62,10 @@ public class LoginController {
         CalculateResult result = algorithmHandle.mM1(type);
         return new SuccessTip().data(result);
     }
+
+    @GetMapping("/testTime")
+    public Object passTime(String type, int c) {
+        CalculateResult result = algorithmHandle.mMC(type,c);
+        return new SuccessTip().data(result);
+    }
 }
