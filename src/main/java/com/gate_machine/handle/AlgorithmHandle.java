@@ -77,6 +77,7 @@ public class AlgorithmHandle {
         BigDecimal p = r.divide(new BigDecimal(c).multiply(u), 5, BigDecimal.ROUND_HALF_UP);
         calculateResult.setP(p);
         BigDecimal p0 = getP0(u, r, p, c);
+        calculateResult.setP0(p0);
 
         // 求Lq值
         // p * c 的 c次幂
@@ -116,7 +117,79 @@ public class AlgorithmHandle {
         calculateResult.setR(r);
         // 求p的值 r / u
         BigDecimal p = r.divide(u, 5, BigDecimal.ROUND_HALF_UP);
+        calculateResult.setP(p);
+        List<BigDecimal> collect = timeDataList.stream().map(TimeData::getPassTime).collect(Collectors.toList());
+        // collect 转换成 数组
+        BigDecimal[] array = collect.toArray(new BigDecimal[collect.size()]);
+        BigDecimal Dx = calculateVariance(array);
+        //  p 的2次幂 + r的2次幂乘Dx
+        BigDecimal p2 = p.multiply(p);
+        BigDecimal r2 = r.multiply(r);
+        BigDecimal up = r2.multiply(Dx).add(p2);
+        // 2 (1-p)
+        BigDecimal down = new BigDecimal(2).multiply(new BigDecimal(1).subtract(p));
+        // L = p + up / down
+        BigDecimal L = p.add(up.divide(down, 5, BigDecimal.ROUND_HALF_UP));
+        calculateResult.setL(L);
+        // W = L / r
+        BigDecimal W = L.divide(r, 5, BigDecimal.ROUND_HALF_UP);
+        calculateResult.setW(W);
+        // Lq = rWq = L -p
+        BigDecimal Lq = r.multiply(p);
+        calculateResult.setLq(Lq);
+        // Wq = W - Ev
+        // Ev
+        BigDecimal Ev = calculateExpectedValue(collect);
+        BigDecimal Wq = W.subtract(Ev);
+        calculateResult.setWq(Wq);
         return calculateResult;
+    }
+
+    // 计算期望值
+    public static BigDecimal calculateExpectedValue(List<BigDecimal> values) {
+        BigDecimal expectedValue = BigDecimal.ZERO; // 初始化期望值为0
+        BigDecimal size = new BigDecimal(values.size()); // List的大小
+        BigDecimal oneOverSize = BigDecimal.ONE.divide(size, 5, BigDecimal.ROUND_HALF_UP); // 计算1/size
+
+        // 遍历List，累加每个值与其概率的乘积
+        for (BigDecimal value : values) {
+            expectedValue = expectedValue.add(value.multiply(oneOverSize));
+        }
+
+        return expectedValue;
+    }
+
+
+    //计算一组数据的方差
+    public static BigDecimal calculateVariance(BigDecimal[] data) {
+        int n = data.length;
+        // 计算平均值
+        BigDecimal mean = calculateMean(data);
+        // 计算差的平方和
+        BigDecimal sumSquaredDiff = BigDecimal.ZERO;
+        for (int i = 0; i < n; i++) {
+            BigDecimal diff = data[i].subtract(mean);
+            sumSquaredDiff = sumSquaredDiff.add(diff.multiply(diff));
+        }
+        // 计算方差
+        BigDecimal variance = sumSquaredDiff.divide(BigDecimal.valueOf(n), BigDecimal.ROUND_HALF_UP);
+
+        return variance;
+    }
+
+    public static BigDecimal calculateMean(BigDecimal[] data) {
+        int n = data.length;
+
+        // 计算总和
+        BigDecimal sum = BigDecimal.ZERO;
+        for (int i = 0; i < n; i++) {
+            sum = sum.add(data[i]);
+        }
+
+        // 计算平均值
+        BigDecimal mean = sum.divide(BigDecimal.valueOf(n), BigDecimal.ROUND_HALF_UP);
+
+        return mean;
     }
 
     private BigDecimal getP0(BigDecimal u, BigDecimal r, BigDecimal p, Integer c) {
