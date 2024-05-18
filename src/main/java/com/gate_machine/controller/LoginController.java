@@ -49,7 +49,7 @@ public class LoginController {
     }
 
     /**
-     * 这是一个注册
+     * 这是一个注册功能
      * @param user
      * @return
      */
