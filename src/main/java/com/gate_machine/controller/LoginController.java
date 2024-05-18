@@ -18,14 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/")
 public class LoginController {
 
-
     @Autowired
     AlgorithmHandle algorithmHandle;
     @Autowired
     UserService userService;
 
     /**
-     * 这是个登录接口
+     * 这是个登录接口122
      */
     @PostMapping("/login")
     public R<String> login(@RequestBody User user, HttpServletRequest request) {
@@ -33,7 +32,7 @@ public class LoginController {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUserName, user.getUserName());
         User userServiceOne = userService.getOne(wrapper);
-        //如果没有查询到 返回失败
+        //如果没有查询到 返回失败1
         if (userServiceOne == null) {
             return R.error("用户名错误或注册");
         }
@@ -48,6 +47,30 @@ public class LoginController {
 
         return R.success("用户登录成功");
     }
+
+    /**
+     * 这是一个注册功能
+     * @param user
+     * @return
+     */
+    @PostMapping("/register")
+    public R<String> register(@RequestBody User user) {
+        if (user.getUserName() == null || user.getPassword() == null) {
+            return R.error("用户名或密码不能为空");
+        }
+        if (userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUserName, user.getUserName())) != null) {
+            return R.error("用户名已存在");
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserName, user.getUserName());
+        //把user添加到数据库
+        boolean save = userService.save(user);
+        R.error("注册成功");
+
+        return R.success("注册成功");
+    }
+
+
 
     @GetMapping("/test")
     public Object passTime() {
