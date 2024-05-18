@@ -24,7 +24,7 @@ public class LoginController {
     UserService userService;
 
     /**
-     * 这是个登录接口
+     * 这是个登录接口122
      */
     @PostMapping("/login")
     public R<String> login(@RequestBody User user, HttpServletRequest request) {
