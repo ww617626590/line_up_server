@@ -32,7 +32,7 @@ public class LoginController {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUserName, user.getUserName());
         User userServiceOne = userService.getOne(wrapper);
-        //如果没有查询到 返回失败
+        //如果没有查询到 返回失败1
         if (userServiceOne == null) {
             return R.error("用户名错误或注册");
         }
