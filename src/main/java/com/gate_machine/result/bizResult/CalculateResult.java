@@ -47,4 +47,68 @@ public class CalculateResult {
      */
     private BigDecimal Wq;
 
+    public void setU(BigDecimal u) {
+        this.u = u.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getU() {
+        return u;
+    }
+
+    public void setR(BigDecimal r) {
+        this.r = r.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getR() {
+        return r;
+    }
+
+    public void setP(BigDecimal p) {
+        this.p = p.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getP() {
+        return p;
+    }
+
+    public void setP0(BigDecimal p0) {
+        this.p0 = p0.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getP0() {
+        return p0;
+    }
+
+    public void setL(BigDecimal L) {
+        this.L = L.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getL() {
+        return L;
+    }
+
+    public void setLq(BigDecimal Lq) {
+        this.Lq = Lq.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getLq() {
+        return Lq;
+    }
+
+    public void setW(BigDecimal W) {
+        this.W = W.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getW() {
+        return W;
+    }
+
+    public void setWq(BigDecimal Wq) {
+        this.Wq = Wq.setScale(3, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getWq() {
+        return Wq;
+    }
+
 }
