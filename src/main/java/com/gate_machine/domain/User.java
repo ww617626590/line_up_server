@@ -21,7 +21,7 @@ public class User implements Serializable {
     * 主键
     */
     @NotNull(message="[主键]不能为空")
-    private Long id;
+    private int id;
     /**
     * 用户名
     */

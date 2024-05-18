@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/")
 public class LoginController {
 
-
     @Autowired
     AlgorithmHandle algorithmHandle;
     @Autowired
@@ -48,6 +47,30 @@ public class LoginController {
 
         return R.success("用户登录成功");
     }
+
+    /**
+     * 这是一个注册
+     * @param user
+     * @return
+     */
+    @PostMapping("/register")
+    public R<String> register(@RequestBody User user) {
+        if (user.getUserName() == null || user.getPassword() == null) {
+            return R.error("用户名或密码不能为空");
+        }
+        if (userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUserName, user.getUserName())) != null) {
+            return R.error("用户名已存在");
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserName, user.getUserName());
+        //把user添加到数据库
+        boolean save = userService.save(user);
+        R.error("注册成功");
+
+        return R.success("注册成功");
+    }
+
+
 
     @GetMapping("/test")
     public Object passTime() {
