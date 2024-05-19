@@ -19,7 +19,7 @@ public class TimeData implements Serializable {
     /**
      * 主键
      */
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
