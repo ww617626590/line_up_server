@@ -3,13 +3,16 @@ package com.gate_machine.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gate_machine.domain.DataObj;
 import com.gate_machine.domain.TimeData;
 import com.gate_machine.result.R;
 import com.gate_machine.service.TimeDataService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
@@ -20,25 +23,34 @@ public class TimeDataController {
 
 //原始数据 主页显示
 
-@GetMapping("/pageAll")
-    public R<Page> DataManagement(@RequestParam Integer page, @RequestParam Integer size,@RequestParam String type) {
+@PostMapping("/pageAll")
+    public R<Page> DataManagement(@RequestBody DataObj obj) {
 
     //使用mybatisPlus查询所有数据并分页展示前端22
     //创建page对象
-    Page<TimeData> pageInfo = new Page<>(page, size);
+
+    Page<TimeData> pageInfo = new Page<>(obj.getPage(), obj.getSize());
     //构建查询条件
     LambdaQueryWrapper<TimeData> queryWrapper = new LambdaQueryWrapper<>();
-    if (StringUtils.isNotBlank(type)){
-        if (type.equals("1")) {
-            queryWrapper.eq(TimeData::getType,type);
+    if (StringUtils.isNotBlank(obj.getType())) {
+        if (obj.getType().equals("1")) {
+            queryWrapper.eq(TimeData::getType, obj.getType());
         }
-        if (type.equals("2")){
-            queryWrapper.eq(TimeData::getType,type);
+        if (obj.getType().equals("2")) {
+            queryWrapper.eq(TimeData::getType, obj.getType());
         }
-        if (type.equals("3")){
-            queryWrapper.eq(TimeData::getType,type);
+        if (obj.getType().equals("3")) {
+            queryWrapper.eq(TimeData::getType, obj.getType());
         }
-
+    }
+    if (StringUtils.isNotBlank(obj.getLabel())){
+         //根据obj.getLabel()查询并且范围为satrt-end
+        if (obj.getLabel().equals("通过时间")){
+            queryWrapper.between(TimeData::getPassTime, obj.getStart(), obj.getEnd());
+        }
+        if (obj.getLabel().equals("时间间隔")){
+            queryWrapper.between(TimeData::getTimeInterval, obj.getStart(), obj.getEnd());
+        }
     }
 
     //根据排序条件升序
@@ -81,7 +93,7 @@ public class TimeDataController {
  */
 
 @DeleteMapping("/delete/{id}")
-    public R<String> delete( @PathVariable Integer id ,@RequestBody Object object) {
+    public R<String> delete( @PathVariable Integer id ) {
     //删除数据
     if (id == null){
         return R.error("删除失败");
@@ -90,7 +102,17 @@ public class TimeDataController {
     return R.success("删除成功");
 }
 
+//根据id查询数据
 
+    @GetMapping("/selectById/{id}")
+    public R<TimeData> selectById(@PathVariable Integer id) {
+        TimeData timeData = timeDataService.getById(id);
+        if (timeData == null){
+            return R.error("查询失败");
+        }
+        log.info("查询成功"+timeData.toString());
+        return R.success(timeData);
+    }
 
 
 }
