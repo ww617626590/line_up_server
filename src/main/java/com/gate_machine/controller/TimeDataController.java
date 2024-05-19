@@ -23,7 +23,7 @@ public class TimeDataController {
 @GetMapping("/pageAll")
     public R<Page> DataManagement(@RequestParam Integer page, @RequestParam Integer size,@RequestParam String type) {
 
-    //使用mybatisPlus查询所有数据并分页展示前端
+    //使用mybatisPlus查询所有数据并分页展示前端33
     //创建page对象
     Page<TimeData> pageInfo = new Page<>(page, size);
     //构建查询条件
