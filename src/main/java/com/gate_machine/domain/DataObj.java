@@ -3,7 +3,7 @@ package com.gate_machine.domain;
 import lombok.Data;
 
 import java.io.Serializable;
-
+//封
 @Data
 public class DataObj implements Serializable {
 
