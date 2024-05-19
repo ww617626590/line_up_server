@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gate_machine.domain.TimeData;
 import com.gate_machine.result.R;
 import com.gate_machine.service.TimeDataService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,26 @@ public class TimeDataController {
 //原始数据 主页显示
 
 @GetMapping("/pageAll")
-    public R<Page> DataManagement(@RequestParam Integer page, @RequestParam Integer size) {
+    public R<Page> DataManagement(@RequestParam Integer page, @RequestParam Integer size,@RequestParam String type) {
+
     //使用mybatisPlus查询所有数据并分页展示前端
     //创建page对象
     Page<TimeData> pageInfo = new Page<>(page, size);
     //构建查询条件
     LambdaQueryWrapper<TimeData> queryWrapper = new LambdaQueryWrapper<>();
+    if (StringUtils.isNotBlank(type)){
+        if (type.equals("1")) {
+            queryWrapper.eq(TimeData::getType,type);
+        }
+        if (type.equals("2")){
+            queryWrapper.eq(TimeData::getType,type);
+        }
+        if (type.equals("3")){
+            queryWrapper.eq(TimeData::getType,type);
+        }
+
+    }
+
     //根据排序条件升序
     queryWrapper.orderByAsc(TimeData::getId);
     //查询page
@@ -66,7 +81,7 @@ public class TimeDataController {
  */
 
 @DeleteMapping("/delete/{id}")
-    public R<String> delete( @PathVariable Integer id) {
+    public R<String> delete( @PathVariable Integer id ,@RequestBody Object object) {
     //删除数据
     if (id == null){
         return R.error("删除失败");
