@@ -24,13 +24,22 @@ public class ResultController {
 
     /**
      * 结果分页
+     *
      * @param page 当前页
      *             pageSize 每页显示多少条
      *             suanfa 查询字段
+     * @param size
      */
     @GetMapping("/page")
-    public Object page(int page, int pageSize, String suanfa, String data) {
-        return R.success(lgResultService.pageMain(page, pageSize, suanfa, data));
+    public Object page(Integer page, Integer size, String suanfa, String data) {
+        return R.success(lgResultService.pageMain(page, size, suanfa, data));
     }
-
+    /**
+     * 删除数据
+     * @param id
+     */
+    @GetMapping("/delete")
+    public Object delete(Long id) {
+        return R.success(lgResultService.removeById(id));
+    }
 }

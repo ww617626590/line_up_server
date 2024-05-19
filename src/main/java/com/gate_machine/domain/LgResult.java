@@ -20,7 +20,7 @@ public class LgResult implements Serializable {
     /**
      * 主键
      */
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
