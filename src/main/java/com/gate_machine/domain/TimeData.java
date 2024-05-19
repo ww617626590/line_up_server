@@ -28,7 +28,7 @@ public class TimeData implements Serializable {
     private BigDecimal passTime;
 
     /**
-     * 时间间隔
+     * 时间间隔1
      */
     private BigDecimal timeInterval;
 
