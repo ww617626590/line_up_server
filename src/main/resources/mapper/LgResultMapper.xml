@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gate_machine.mapper.LgResultMapper">
+
+    <resultMap id="BaseResultMap" type="com.gate_machine.domain.LgResult">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="u" column="u" jdbcType="DECIMAL"/>
+            <result property="r" column="r" jdbcType="DECIMAL"/>
+            <result property="p" column="p" jdbcType="DECIMAL"/>
+            <result property="l" column="L" jdbcType="DECIMAL"/>
+            <result property="lq" column="Lq" jdbcType="DECIMAL"/>
+            <result property="w" column="W" jdbcType="DECIMAL"/>
+            <result property="wq" column="Wq" jdbcType="DECIMAL"/>
+            <result property="sf" column="sf" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="p0" column="P0" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,u,r,
+        p,L,Lq,
+        W,Wq,sf,
+        type,P0
+    </sql>
+</mapper>
