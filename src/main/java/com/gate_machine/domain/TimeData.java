@@ -19,7 +19,7 @@ public class TimeData implements Serializable {
     /**
      * 主键
      */
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -28,7 +28,7 @@ public class TimeData implements Serializable {
     private BigDecimal passTime;
 
     /**
-     * 时间间隔
+     * 时间间隔1
      */
     private BigDecimal timeInterval;
 
