@@ -43,13 +43,13 @@ public class CalculateController {
         CalculateResult calculateResult = new CalculateResult();
         LgResult lgResult = new LgResult();
         if ("mM1".equals(arithmetic)) {
-            lgResult.setSf("mM1");
+            lgResult.setSf("MM1");
             calculateResult = algorithmHandle.mM1(type);
         } else if ("mMC".equals(arithmetic)) {
-            lgResult.setSf("mMC");
+            lgResult.setSf("MMC");
             calculateResult = algorithmHandle.mMC(type, c);
         } else if ("mG1".equals(arithmetic)) {
-            lgResult.setSf("mG1");
+            lgResult.setSf("MG1");
             calculateResult = algorithmHandle.mG1(type);
         }
         if (Objects.nonNull(calculateResult)) {

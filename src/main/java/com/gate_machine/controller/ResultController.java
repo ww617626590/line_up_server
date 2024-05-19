@@ -3,10 +3,7 @@ package com.gate_machine.controller;
 import com.gate_machine.result.R;
 import com.gate_machine.service.LgResultService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: wanghao
@@ -38,8 +35,8 @@ public class ResultController {
      * 删除数据
      * @param id
      */
-    @GetMapping("/delete")
-    public Object delete(Long id) {
+    @PostMapping("/delete/{id}")
+    public Object delete(@PathVariable Long id) {
         return R.success(lgResultService.removeById(id));
     }
 }

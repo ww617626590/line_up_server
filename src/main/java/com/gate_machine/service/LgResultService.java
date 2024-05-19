@@ -11,5 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface LgResultService extends IService<LgResult> {
 
-    Page pageMain(int page, int pageSize, String suanfa, String data);
+    Page pageMain(Integer page, Integer pageSize, String suanfa, String data);
 }
