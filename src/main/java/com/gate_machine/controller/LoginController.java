@@ -27,7 +27,7 @@ public class LoginController {
      * 这是个登录接口122
      */
     @PostMapping("/login")
-    public R<String> login(@RequestBody User user, HttpServletRequest request) {
+    public R login(@RequestBody User user, HttpServletRequest request) {
         //根据页面的数据查询数据库
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUserName, user.getUserName());
@@ -40,12 +40,10 @@ public class LoginController {
         if (!user.getPassword().equals(userServiceOne.getPassword())) {
             return R.error("密码错误");
         }
-
-
         //登录成功 并把用户id保存到Session
         request.getSession().setAttribute("user", user.getId());
 
-        return R.success("用户登录成功");
+        return R.success(userServiceOne);
     }
 
     /**
